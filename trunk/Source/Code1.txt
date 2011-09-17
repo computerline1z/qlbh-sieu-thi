@@ -1,0 +1,29 @@
+namespace ban_hang_sieu_thi
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void login_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            quanly ql = new quanly();
+            ql.Show();
+        }
+
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+
+
+
+    }
+}
