@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2008                    */
-/* Created on:     9/19/2011 9:15:30 PM                         */
+/* Created on:     09/20/2011 2:06:37 PM                        */
 /*==============================================================*/
 
 
@@ -62,16 +62,16 @@ go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('CUNG_CAP') and o.name = 'FK_CUNG_CAP_CUNG_CAP_NHACUNGC')
-alter table CUNG_CAP
-   drop constraint FK_CUNG_CAP_CUNG_CAP_NHACUNGC
+   where r.fkeyid = object_id('CUNGCAP') and o.name = 'FK_CUNGCAP_RELATIONS_NHACUNGC')
+alter table CUNGCAP
+   drop constraint FK_CUNGCAP_RELATIONS_NHACUNGC
 go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('CUNG_CAP') and o.name = 'FK_CUNG_CAP_CUNG_CAP2_DMHANG')
-alter table CUNG_CAP
-   drop constraint FK_CUNG_CAP_CUNG_CAP2_DMHANG
+   where r.fkeyid = object_id('CUNGCAP') and o.name = 'FK_CUNGCAP_RELATIONS_DMHANG')
+alter table CUNGCAP
+   drop constraint FK_CUNGCAP_RELATIONS_DMHANG
 go
 
 if exists (select 1
@@ -79,6 +79,20 @@ if exists (select 1
    where r.fkeyid = object_id('DMHANG') and o.name = 'FK_DMHANG_THUOC_LOAIHANG')
 alter table DMHANG
    drop constraint FK_DMHANG_THUOC_LOAIHANG
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('DONDATHANG') and o.name = 'FK_DONDATHA_LAPDDH_NHANVIEN')
+alter table DONDATHANG
+   drop constraint FK_DONDATHA_LAPDDH_NHANVIEN
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('DONDATHANG') and o.name = 'FK_DONDATHA_RELATIONS_NHACUNGC')
+alter table DONDATHANG
+   drop constraint FK_DONDATHA_RELATIONS_NHACUNGC
 go
 
 if exists (select 1
@@ -139,20 +153,6 @@ go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('KHO') and o.name = 'FK_KHO_TRONG_KHO_CTPHIEUN')
-alter table KHO
-   drop constraint FK_KHO_TRONG_KHO_CTPHIEUN
-go
-
-if exists (select 1
-   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('KHO') and o.name = 'FK_KHO_TRONG_KHO_CTPHIEUX')
-alter table KHO
-   drop constraint FK_KHO_TRONG_KHO_CTPHIEUX
-go
-
-if exists (select 1
-   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('PHIEUNHAP') and o.name = 'FK_PHIEUNHA_CUA5_NHACUNGC')
 alter table PHIEUNHAP
    drop constraint FK_PHIEUNHA_CUA5_NHACUNGC
@@ -167,9 +167,23 @@ go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('PHIEUNHAP') and o.name = 'FK_PHIEUNHA_NHAP_TAI_KHO')
+alter table PHIEUNHAP
+   drop constraint FK_PHIEUNHA_NHAP_TAI_KHO
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('PHIEUXUAT') and o.name = 'FK_PHIEUXUA_LAP_PX_NHANVIEN')
 alter table PHIEUXUAT
    drop constraint FK_PHIEUXUA_LAP_PX_NHANVIEN
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('PHIEUXUAT') and o.name = 'FK_PHIEUXUA_XUAT_TAI_KHO')
+alter table PHIEUXUAT
+   drop constraint FK_PHIEUXUA_XUAT_TAI_KHO
 go
 
 if exists (select 1
@@ -288,27 +302,27 @@ go
 
 if exists (select 1
             from  sysindexes
-           where  id    = object_id('CUNG_CAP')
-            and   name  = 'CUNG_CAP2_FK'
+           where  id    = object_id('CUNGCAP')
+            and   name  = 'RELATIONSHIP_30_FK'
             and   indid > 0
             and   indid < 255)
-   drop index CUNG_CAP.CUNG_CAP2_FK
+   drop index CUNGCAP.RELATIONSHIP_30_FK
 go
 
 if exists (select 1
             from  sysindexes
-           where  id    = object_id('CUNG_CAP')
-            and   name  = 'CUNG_CAP_FK'
+           where  id    = object_id('CUNGCAP')
+            and   name  = 'RELATIONSHIP_29_FK'
             and   indid > 0
             and   indid < 255)
-   drop index CUNG_CAP.CUNG_CAP_FK
+   drop index CUNGCAP.RELATIONSHIP_29_FK
 go
 
 if exists (select 1
             from  sysobjects
-           where  id = object_id('CUNG_CAP')
+           where  id = object_id('CUNGCAP')
             and   type = 'U')
-   drop table CUNG_CAP
+   drop table CUNGCAP
 go
 
 if exists (select 1
@@ -325,6 +339,31 @@ if exists (select 1
            where  id = object_id('DMHANG')
             and   type = 'U')
    drop table DMHANG
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('DONDATHANG')
+            and   name  = 'RELATIONSHIP_26_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index DONDATHANG.RELATIONSHIP_26_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('DONDATHANG')
+            and   name  = 'LAPDDH_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index DONDATHANG.LAPDDH_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('DONDATHANG')
+            and   type = 'U')
+   drop table DONDATHANG
 go
 
 if exists (select 1
@@ -424,24 +463,6 @@ if exists (select 1
 go
 
 if exists (select 1
-            from  sysindexes
-           where  id    = object_id('KHO')
-            and   name  = 'TRONG_KHO1_FK'
-            and   indid > 0
-            and   indid < 255)
-   drop index KHO.TRONG_KHO1_FK
-go
-
-if exists (select 1
-            from  sysindexes
-           where  id    = object_id('KHO')
-            and   name  = 'TRONG_KHO_FK'
-            and   indid > 0
-            and   indid < 255)
-   drop index KHO.TRONG_KHO_FK
-go
-
-if exists (select 1
             from  sysobjects
            where  id = object_id('KHO')
             and   type = 'U')
@@ -486,6 +507,15 @@ go
 if exists (select 1
             from  sysindexes
            where  id    = object_id('PHIEUNHAP')
+            and   name  = 'NHAP_TAI_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index PHIEUNHAP.NHAP_TAI_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('PHIEUNHAP')
             and   name  = 'CUA5_FK'
             and   indid > 0
             and   indid < 255)
@@ -506,6 +536,15 @@ if exists (select 1
            where  id = object_id('PHIEUNHAP')
             and   type = 'U')
    drop table PHIEUNHAP
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('PHIEUXUAT')
+            and   name  = 'XUAT_TAI_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index PHIEUXUAT.XUAT_TAI_FK
 go
 
 if exists (select 1
@@ -663,27 +702,27 @@ MAHANG ASC
 go
 
 /*==============================================================*/
-/* Table: CUNG_CAP                                              */
+/* Table: CUNGCAP                                               */
 /*==============================================================*/
-create table CUNG_CAP (
+create table CUNGCAP (
    MANCC                char(7)              not null,
    MAHANG               char(7)              not null,
-   constraint PK_CUNG_CAP primary key (MANCC, MAHANG)
+   constraint PK_CUNGCAP primary key (MANCC, MAHANG)
 )
 go
 
 /*==============================================================*/
-/* Index: CUNG_CAP_FK                                           */
+/* Index: RELATIONSHIP_29_FK                                    */
 /*==============================================================*/
-create index CUNG_CAP_FK on CUNG_CAP (
+create index RELATIONSHIP_29_FK on CUNGCAP (
 MANCC ASC
 )
 go
 
 /*==============================================================*/
-/* Index: CUNG_CAP2_FK                                          */
+/* Index: RELATIONSHIP_30_FK                                    */
 /*==============================================================*/
-create index CUNG_CAP2_FK on CUNG_CAP (
+create index RELATIONSHIP_30_FK on CUNGCAP (
 MAHANG ASC
 )
 go
@@ -696,7 +735,7 @@ create table DMHANG (
    LOAI                 char(7)              not null,
    TENHANG              char(30)             null,
    GIABAN               money                null,
-   DVTINH               char(10)             null,
+   DVTINH               char(15)             null,
    constraint PK_DMHANG primary key nonclustered (MAHANG)
 )
 go
@@ -706,6 +745,35 @@ go
 /*==============================================================*/
 create index THUOC_FK on DMHANG (
 LOAI ASC
+)
+go
+
+/*==============================================================*/
+/* Table: DONDATHANG                                            */
+/*==============================================================*/
+create table DONDATHANG (
+   SODDH                char(7)              not null,
+   MANCC                char(7)              not null,
+   MANV1                char(7)              not null,
+   NGAYLAP              datetime             null,
+   PHUONGTHUCTT         char(30)             null,
+   constraint PK_DONDATHANG primary key nonclustered (SODDH)
+)
+go
+
+/*==============================================================*/
+/* Index: LAPDDH_FK                                             */
+/*==============================================================*/
+create index LAPDDH_FK on DONDATHANG (
+MANV1 ASC
+)
+go
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_26_FK                                    */
+/*==============================================================*/
+create index RELATIONSHIP_26_FK on DONDATHANG (
+MANCC ASC
 )
 go
 
@@ -747,7 +815,7 @@ create table HOADONCTY (
    NGAYHD               datetime             null,
    PHUONGTHUCTT         char(30)             null,
    CHIETKHAU            float(2)             null,
-   constraint PK_HOADONCTY primary key (SOHDCTY)
+   constraint PK_HOADONCTY primary key nonclustered (SOHDCTY)
 )
 go
 
@@ -775,7 +843,7 @@ create table HOADONLE (
    MANV1                char(7)              not null,
    MAKH                 char(7)              not null,
    NGAYHD               datetime             null,
-   constraint PK_HOADONLE primary key (SOHDLE)
+   constraint PK_HOADONLE primary key nonclustered (SOHDLE)
 )
 go
 
@@ -838,31 +906,9 @@ go
 /* Table: KHO                                                   */
 /*==============================================================*/
 create table KHO (
-   MAPHIEU1             char(7)              not null,
-   MAHANG               char(7)              not null,
-   MAPHIEU              char(7)              not null,
-   CTP_MAHANG           char(7)              not null,
    MAKHO                char(7)              not null,
    TENKHO               char(30)             null,
-   constraint PK_KHO primary key nonclustered (MAPHIEU1, MAHANG, MAPHIEU, CTP_MAHANG, MAKHO)
-)
-go
-
-/*==============================================================*/
-/* Index: TRONG_KHO_FK                                          */
-/*==============================================================*/
-create index TRONG_KHO_FK on KHO (
-MAPHIEU ASC,
-CTP_MAHANG ASC
-)
-go
-
-/*==============================================================*/
-/* Index: TRONG_KHO1_FK                                         */
-/*==============================================================*/
-create index TRONG_KHO1_FK on KHO (
-MAPHIEU1 ASC,
-MAHANG ASC
+   constraint PK_KHO primary key nonclustered (MAKHO)
 )
 go
 
@@ -929,6 +975,7 @@ go
 create table PHIEUNHAP (
    MAPHIEU              char(7)              not null,
    MANCC                char(7)              not null,
+   MAKHO                char(7)              not null,
    MANV1                char(7)              not null,
    NGAYNHAP             datetime             null,
    constraint PK_PHIEUNHAP primary key nonclustered (MAPHIEU)
@@ -952,10 +999,19 @@ MANCC ASC
 go
 
 /*==============================================================*/
+/* Index: NHAP_TAI_FK                                           */
+/*==============================================================*/
+create index NHAP_TAI_FK on PHIEUNHAP (
+MAKHO ASC
+)
+go
+
+/*==============================================================*/
 /* Table: PHIEUXUAT                                             */
 /*==============================================================*/
 create table PHIEUXUAT (
    MAPHIEU1             char(7)              not null,
+   MAKHO                char(7)              not null,
    MANV1                char(7)              not null,
    NGAYXUAT             datetime             null,
    constraint PK_PHIEUXUAT primary key nonclustered (MAPHIEU1)
@@ -967,6 +1023,14 @@ go
 /*==============================================================*/
 create index LAP_PX_FK on PHIEUXUAT (
 MANV1 ASC
+)
+go
+
+/*==============================================================*/
+/* Index: XUAT_TAI_FK                                           */
+/*==============================================================*/
+create index XUAT_TAI_FK on PHIEUXUAT (
+MAKHO ASC
 )
 go
 
@@ -994,10 +1058,8 @@ go
 /*==============================================================*/
 create table TONKHO (
    MAHANG               char(7)              not null,
-   DAUKY                int                  null,
    NHAP                 int                  null,
    XUAT                 int                  null,
-   SLTON                int                  null,
    constraint PK_TONKHO primary key (MAHANG)
 )
 go
@@ -1042,19 +1104,29 @@ alter table CTPHIEUXUAT
       references PHIEUXUAT (MAPHIEU1)
 go
 
-alter table CUNG_CAP
-   add constraint FK_CUNG_CAP_CUNG_CAP_NHACUNGC foreign key (MANCC)
+alter table CUNGCAP
+   add constraint FK_CUNGCAP_RELATIONS_NHACUNGC foreign key (MANCC)
       references NHACUNGCAP (MANCC)
 go
 
-alter table CUNG_CAP
-   add constraint FK_CUNG_CAP_CUNG_CAP2_DMHANG foreign key (MAHANG)
+alter table CUNGCAP
+   add constraint FK_CUNGCAP_RELATIONS_DMHANG foreign key (MAHANG)
       references DMHANG (MAHANG)
 go
 
 alter table DMHANG
    add constraint FK_DMHANG_THUOC_LOAIHANG foreign key (LOAI)
       references LOAIHANG (LOAI)
+go
+
+alter table DONDATHANG
+   add constraint FK_DONDATHA_LAPDDH_NHANVIEN foreign key (MANV1)
+      references NHANVIEN (MANV1)
+go
+
+alter table DONDATHANG
+   add constraint FK_DONDATHA_RELATIONS_NHACUNGC foreign key (MANCC)
+      references NHACUNGCAP (MANCC)
 go
 
 alter table HANG_KM
@@ -1097,16 +1169,6 @@ alter table KHACHTT
       references KHACHHANG (MAKH)
 go
 
-alter table KHO
-   add constraint FK_KHO_TRONG_KHO_CTPHIEUN foreign key (MAPHIEU, CTP_MAHANG)
-      references CTPHIEUNHAP (MAPHIEU, MAHANG)
-go
-
-alter table KHO
-   add constraint FK_KHO_TRONG_KHO_CTPHIEUX foreign key (MAPHIEU1, MAHANG)
-      references CTPHIEUXUAT (MAPHIEU1, MAHANG)
-go
-
 alter table PHIEUNHAP
    add constraint FK_PHIEUNHA_CUA5_NHACUNGC foreign key (MANCC)
       references NHACUNGCAP (MANCC)
@@ -1117,9 +1179,19 @@ alter table PHIEUNHAP
       references NHANVIEN (MANV1)
 go
 
+alter table PHIEUNHAP
+   add constraint FK_PHIEUNHA_NHAP_TAI_KHO foreign key (MAKHO)
+      references KHO (MAKHO)
+go
+
 alter table PHIEUXUAT
    add constraint FK_PHIEUXUA_LAP_PX_NHANVIEN foreign key (MANV1)
       references NHANVIEN (MANV1)
+go
+
+alter table PHIEUXUAT
+   add constraint FK_PHIEUXUA_XUAT_TAI_KHO foreign key (MAKHO)
+      references KHO (MAKHO)
 go
 
 alter table TAIKHOAN
