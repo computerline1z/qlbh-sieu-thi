@@ -1,0 +1,61 @@
+﻿    class DataProvider 
+    {
+        SqlConnection connection;
+        SqlCommand command;
+        SqlDataAdapter adapter;
+        DataTable dt;
+        public String messageErrors=null;
+
+        public DataProvider(String connStr="",String dbName="")
+        {
+            if(connStr=="" && dbName!="")
+                connection = new SqlConnection("server=.\\SQLEXPRESS;database=" + dbName + ";Integrated security=true;");
+            if (connStr != "")
+                connection = new SqlConnection(connStr);
+            dt = new DataTable();
+            openConnection();
+            
+        }
+      
+        public void openConnection()
+        {
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception exception)
+            {
+                messageErrors = exception.Message;
+            }
+        }
+
+        public void closeConnection()
+        {
+            connection.Close();
+        }
+
+        public SqlDataAdapter excuteQuery(String sqlQuery) 
+        {
+            try
+            {
+                command = new SqlCommand(sqlQuery, connection);
+                adapter = new SqlDataAdapter(command);
+                
+            }
+            catch (Exception ex)
+            {
+                messageErrors = ex.Message;
+            }
+            return adapter;
+        }   
+      
+        public DataTable getData()
+        {   
+            adapter.Fill(dt);
+            return dt;
+        }
+    }
+
+
+
+Lớp data provider cung cấp kết nối tới các đối tượng dữ liệu 
