@@ -3,7 +3,7 @@
 /* Created on:     09/22/2011 10:51:28 PM                       */
 /*==============================================================*/
 
-
+use qlsieuthi
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('CTHDCTY') and o.name = 'FK_CTHDCTY_RELATIONS_DMHANG')
