@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2008                    */
-/* Created on:     25/09/2011 6:08:27 PM                        */
+/* Created on:     27/09/2011 1:51:55 PM                        */
 /*==============================================================*/
 
 
@@ -72,6 +72,13 @@ if exists (select 1
    where r.fkeyid = object_id('CTPHIEUXUAT') and o.name = 'FK_CTPHIEUX_CO2_PHIEUXUA')
 alter table CTPHIEUXUAT
    drop constraint FK_CTPHIEUX_CO2_PHIEUXUA
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('CTPHIEUXUAT') and o.name = 'FK_CTPHIEUX_XUATCHO_HOADONCT')
+alter table CTPHIEUXUAT
+   drop constraint FK_CTPHIEUX_XUATCHO_HOADONCT
 go
 
 if exists (select 1
@@ -333,6 +340,15 @@ if exists (select 1
            where  id = object_id('CTPHIEUNHAP')
             and   type = 'U')
    drop table CTPHIEUNHAP
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('CTPHIEUXUAT')
+            and   name  = 'XUATCHO_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index CTPHIEUXUAT.XUATCHO_FK
 go
 
 if exists (select 1
@@ -714,7 +730,6 @@ create table CTHDCTY (
    MAHANG               char(7)              not null,
    SOHDCTY              char(7)              not null,
    SOLUONG              int                  null,
-   DONGIA               money                null,
    constraint PK_CTHDCTY primary key (MAHANG, SOHDCTY)
 )
 go
@@ -742,7 +757,6 @@ create table CTHDLE (
    MAHANG               char(7)              not null,
    SOHDLE               char(7)              not null,
    SOLUONG              int                  null,
-   DONGIA               money                null,
    constraint PK_CTHDLE primary key (MAHANG, SOHDLE)
 )
 go
@@ -799,7 +813,6 @@ create table CTPHIEUNHAP (
    MAHANG               char(7)              not null,
    SOLUONG1             int                  null,
    GIANHAP              money                null,
-   DVTINH               nvarchar(15)         null,
    constraint PK_CTPHIEUNHAP primary key (MAPHIEU, MAHANG)
 )
 go
@@ -826,10 +839,9 @@ go
 create table CTPHIEUXUAT (
    MAPHIEU1             char(7)              not null,
    MAHANG               char(7)              not null,
+   SOHDCTY              char(7)              not null,
    SOLUONG1             int                  null,
-   GIAXUAT              money                null,
-   DVTINH               nvarchar(15)         null,
-   constraint PK_CTPHIEUXUAT primary key (MAPHIEU1, MAHANG)
+   constraint PK_CTPHIEUXUAT primary key (MAPHIEU1, MAHANG, SOHDCTY)
 )
 go
 
@@ -846,6 +858,14 @@ go
 /*==============================================================*/
 create index CHUA_FK on CTPHIEUXUAT (
 MAHANG ASC
+)
+go
+
+/*==============================================================*/
+/* Index: XUATCHO_FK                                            */
+/*==============================================================*/
+create index XUATCHO_FK on CTPHIEUXUAT (
+SOHDCTY ASC
 )
 go
 
@@ -907,10 +927,11 @@ go
 create table DMHANG (
    MAHANG               char(7)              not null,
    LOAI1                char(7)              not null,
-   NHOMHANG             char(7)              not null,
+   MANHOM               char(7)              not null,
    TENHANG              nvarchar(30)         null,
-   GIABAN               money                null,
    DVTINH               nvarchar(15)         null,
+   GIABAN               money                null,
+   TRANGTHAI            bit                  null,
    constraint PK_DMHANG primary key nonclustered (MAHANG)
 )
 go
@@ -927,7 +948,7 @@ go
 /* Index: THUOC3_FK                                             */
 /*==============================================================*/
 create index THUOC3_FK on DMHANG (
-NHOMHANG ASC
+MANHOM ASC
 )
 go
 
@@ -1048,6 +1069,7 @@ create table KHACH_CTY (
    FAX                  nvarchar(12)         null,
    MATHUE               nvarchar(7)          null,
    SOTK                 nvarchar(7)          null,
+   TRANGTHAI            bit                  null,
    constraint PK_KHACH_CTY primary key nonclustered (MAKH)
 )
 go
@@ -1116,6 +1138,7 @@ create table NHANVIEN (
    TENNV                char(30)             null,
    DIACHI               nvarchar(30)         null,
    DIENTHOAI            nvarchar(12)         null,
+   TRANGTHAI            bit                  null,
    constraint PK_NHANVIEN primary key nonclustered (MANV1)
 )
 go
@@ -1266,9 +1289,9 @@ go
 /* Table: TYSUATGIACA                                           */
 /*==============================================================*/
 create table TYSUATGIACA (
-   NHOMHANG             char(7)              not null,
+   MANHOM               char(7)              not null,
    TYSUAT               float(4)             null,
-   constraint PK_TYSUATGIACA primary key nonclustered (NHOMHANG)
+   constraint PK_TYSUATGIACA primary key nonclustered (MANHOM)
 )
 go
 
@@ -1322,6 +1345,11 @@ alter table CTPHIEUXUAT
       references PHIEUXUAT (MAPHIEU1)
 go
 
+alter table CTPHIEUXUAT
+   add constraint FK_CTPHIEUX_XUATCHO_HOADONCT foreign key (SOHDCTY)
+      references HOADONCTY (SOHDCTY)
+go
+
 alter table CT_DDH
    add constraint FK_CT_DDH_LIENQUAN_DONDATHA foreign key (SODDH)
       references DONDATHANG (SODDH)
@@ -1348,8 +1376,8 @@ alter table DMHANG
 go
 
 alter table DMHANG
-   add constraint FK_DMHANG_THUOC3_TYSUATGI foreign key (NHOMHANG)
-      references TYSUATGIACA (NHOMHANG)
+   add constraint FK_DMHANG_THUOC3_TYSUATGI foreign key (MANHOM)
+      references TYSUATGIACA (MANHOM)
 go
 
 alter table DONDATHANG
