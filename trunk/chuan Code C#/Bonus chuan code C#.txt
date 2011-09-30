@@ -9,7 +9,7 @@ GroupBox - grb - grbThongTinNCC
 MenuStrip - mnus - mnusQuanLy
 TableLayoutPanel - tblp - tblpChiaForm 
 StatusStrip - stas - stasHienThi
-StatusBar - sta - StaDataTime
+ToolStripMenuItem - tsmi - tsmiHeThong
 
 Chúng ta sẽ lấy qui tắc đặt tên Control, Class.... theo FPT(Standard_CSharp Coding Convention.pdf) và một số tên control mình đã bổ sung ở trên để việc thiết kế và code đồng bộ. Nếu bạn nào làm không giống thì tự sửa lại dùm nha, về sau cứ thế mà làm!! Chúc mọi người làm việc vui vẻ!
 Theo kinh nghiệm thì nên dùng panel Document Outline [Ctrl + Alt + D] để sửa name là nhanh nhất
