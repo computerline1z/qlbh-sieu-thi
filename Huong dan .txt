@@ -1,3 +1,0 @@
-File SQL cac ban down ve roi sau do chay trong SQL server no se Generate Database ra.
-Cac ban nhap vao cac bang co khoa chinh truoc (LOAIHANG, NHANVIEN, NHACUNGCAP, PHIEUNHAP, PHIEUXUAT ... ). Trigger minh da tao cho phep cap nhat tu dong vao DMHANGHOA va KHO (file insertDM.sql)
-cac ban test thu nha roi thong bao neu co loi xay ra minh se fix va giai thich. Con trigger phan xuat la minh chua lam de chieu nay ve lam. 
